@@ -1,0 +1,274 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="register-page">
+    <div class="register-wrapper">
+        <div class="register-card">
+            <div class="card-logo">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <h1>Join SAMS Portal</h1>
+            <p class="subtitle">Register attendance management and get access to staff </p>
+
+            <form method="POST">
+                {% csrf_token %}
+                {% if error %}
+                    <p class="error">{{ error }}</p>
+                {% endif %}
+                {% if not face_recognition_ready %}
+                    <p class="error">Face recognition is not ready on the server yet. Install the required packages before registering staff.</p>
+                {% endif %}
+
+                <div>
+                    <label for="full_name">Full Name</label>
+                    <input class="form-field" type="text" id="full_name" name="full_name" placeholder="John Doe" required>
+                </div>
+
+                <div>
+                    <label for="organization_id">Organization</label>
+                    <select class="form-field" id="organization_id" name="organization_id" required>
+                        {% for organization in organizations %}
+                            <option value="{{ organization.id }}">{{ organization.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="office_location_id">Office Location</label>
+                    <select class="form-field" id="office_location_id" name="office_location_id" required>
+                        <option value="">Select campus</option>
+                        {% for location in office_locations %}
+                            <option value="{{ location.id }}" data-organization="{{ location.organization_id }}">
+                                {{ location.organization.name }} - {{ location.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div>
+                    <label for="department">Department</label>
+                    <input class="form-field" type="text" id="department" name="department" placeholder="Department" required>
+                </div>
+
+                <div>
+                    <label for="country_code">Country Code</label>
+                    <select class="form-field" id="country_code" name="country_code">
+                        <option value="+254">Kenya (+254)</option>
+                        <option value="+1">United States (+1)</option>
+                        <option value="+44">United Kingdom (+44)</option>
+                        <option value="+47">Norway (+47)</option>
+                        <option value="+61">Australia (+61)</option>
+                        <option value="+33">France (+33)</option>
+                        <option value="+49">Germany (+49)</option>
+                        <option value="+255">Tanzania (+255)</option>
+                        <option value="+233">Ghana (+233)</option>
+                        <option value="+234">Nigeria (+234)</option>
+                        <option value="+251">Ethiopia (+251)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="phone_number">Phone Number</label>
+                    <input class="form-field" type="tel" id="phone_number" name="phone_number" placeholder="912345678" inputmode="numeric" autocomplete="tel-national" required>
+                </div>
+
+                <div>
+                    <label for="email">Email Address</label>
+                    <input class="form-field" type="email" id="email" name="email" placeholder="you@example.com" required>
+                </div>
+
+                <div>
+                    <label for="password">Password</label>
+                    <input class="form-field" type="password" id="password" name="password" placeholder="Create a password" required>
+                </div>
+
+                <div>
+                    <label for="password_confirm">Confirm Password</label>
+                    <input class="form-field" type="password" id="password_confirm" name="password_confirm" placeholder="Repeat your password" required>
+                </div>
+
+                <div class="face-panel">
+                    <div class="face-panel-header">
+                        <h3>Face Enrollment</h3>
+                        <span>Capture one clear face for future attendance verification.</span>
+                    </div>
+                    <video id="registerFaceVideo" class="face-video" autoplay playsinline muted></video>
+                    <canvas id="registerFaceCanvas" class="face-canvas" hidden></canvas>
+                    <input type="hidden" id="face_image_data" name="face_image_data">
+                    <div class="face-actions">
+                        <button type="button" class="secondary-button" onclick="enrollFaceAutomatically()">Capture Face</button>
+                    </div>
+                    <p id="registerFaceStatus" class="face-status">
+                        {% if face_recognition_required %}
+                            Face capture is required for registration.
+                        {% else %}
+                            Face capture is optional. Tap capture if you want to enroll now.
+                        {% endif %}
+                    </p>
+                </div>
+
+                <button type="submit" {% if face_recognition_required and not face_recognition_ready %}disabled{% endif %}>Register</button>
+            </form>
+
+            <p class="note">After submission an admin will review your request and issue a staff ID.</p>
+        </div>
+    </div>
+</section>
+<script>
+let registerStream = null;
+const phoneRules = {{ phone_rules_json|safe }};
+
+function filterLocationOptions() {
+    const organizationSelect = document.getElementById("organization_id");
+    const locationSelect = document.getElementById("office_location_id");
+    const selectedOrgId = organizationSelect.value;
+    let firstVisibleOption = null;
+
+    Array.from(locationSelect.options).forEach((option) => {
+        const isMatch = !selectedOrgId || option.dataset.organization === selectedOrgId;
+        option.hidden = !isMatch;
+        if (isMatch && !firstVisibleOption) {
+            firstVisibleOption = option;
+        }
+    });
+
+    if (firstVisibleOption) {
+        locationSelect.value = firstVisibleOption.value;
+    }
+}
+
+function startRegisterCountdown(status, onComplete) {
+    const steps = ["3", "2", "1"];
+    let index = 0;
+
+    function tick() {
+        if (index >= steps.length) {
+            status.textContent = "Capturing now...";
+            onComplete();
+            return;
+        }
+
+        status.textContent = `Hold still. Capturing in ${steps[index]}...`;
+        index += 1;
+        setTimeout(tick, 700);
+    }
+
+    tick();
+}
+
+function waitForRegisterVideoReady(video) {
+    if (video.readyState >= 2 && video.videoWidth > 0 && video.videoHeight > 0) {
+        return Promise.resolve();
+    }
+
+    return new Promise((resolve, reject) => {
+        const timeoutId = setTimeout(() => {
+            video.removeEventListener("loadedmetadata", onReady);
+            reject(new Error("Camera is taking too long to start."));
+        }, 5000);
+
+        function onReady() {
+            clearTimeout(timeoutId);
+            resolve();
+        }
+
+        video.addEventListener("loadedmetadata", onReady, { once: true });
+    });
+}
+
+async function startRegisterCamera() {
+    const video = document.getElementById("registerFaceVideo");
+    const status = document.getElementById("registerFaceStatus");
+
+    try {
+        if (registerStream) {
+            registerStream.getTracks().forEach(track => track.stop());
+        }
+        registerStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+        video.srcObject = registerStream;
+        status.textContent = "Camera ready. Center your face and capture.";
+    } catch (error) {
+        status.textContent = "Unable to access camera. Please allow webcam access.";
+    }
+}
+
+async function enrollFaceAutomatically() {
+    const video = document.getElementById("registerFaceVideo");
+    const status = document.getElementById("registerFaceStatus");
+
+    try {
+        if (!video.srcObject) {
+            status.textContent = "Starting camera. Please look at the screen.";
+            await startRegisterCamera();
+        }
+        await waitForRegisterVideoReady(video);
+        status.textContent = "Camera ready. Letting the image stabilize.";
+
+        setTimeout(() => {
+            startRegisterCountdown(status, captureRegisterFace);
+        }, 1200);
+    } catch (error) {
+        status.textContent = error.message || "Unable to start the camera.";
+    }
+}
+
+function captureRegisterFace() {
+    const video = document.getElementById("registerFaceVideo");
+    const canvas = document.getElementById("registerFaceCanvas");
+    const status = document.getElementById("registerFaceStatus");
+    const faceInput = document.getElementById("face_image_data");
+
+    if (!video.srcObject) {
+        status.textContent = "Start the camera before capturing your face.";
+        return;
+    }
+
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+    const context = canvas.getContext("2d");
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    faceInput.value = canvas.toDataURL("image/jpeg", 0.92);
+    status.textContent = "Face captured successfully. You can now submit registration.";
+}
+
+function updatePhoneRuleHint() {
+    const countryCode = document.getElementById("country_code");
+    const phoneInput = document.getElementById("phone_number");
+    const phoneHelp = document.getElementById("phoneHelp");
+    const selectedRule = phoneRules[countryCode.value];
+
+    if (selectedRule) {
+        phoneHelp.textContent = selectedRule.message;
+        phoneInput.placeholder = countryCode.value === "+251" ? "912345678" : "712345678";
+        phoneInput.pattern = selectedRule.pattern;
+    } else {
+        phoneHelp.textContent = "";
+        phoneInput.placeholder = "712345678";
+        phoneInput.pattern = "\\d{6,15}";
+    }
+}
+
+document.getElementById("phone_number").addEventListener("input", () => {
+    const countryCode = document.getElementById("country_code").value;
+    const phoneInput = document.getElementById("phone_number");
+    const phoneHelp = document.getElementById("phoneHelp");
+    const digitsOnly = phoneInput.value.replace(/\D/g, "");
+    const selectedRule = phoneRules[countryCode];
+
+    if (countryCode === "+251" && digitsOnly && !/^9\d{0,9}$/.test(digitsOnly)) {
+        phoneHelp.textContent = " ";
+        phoneHelp.classList.add("error");
+    } else if (selectedRule && digitsOnly.length > 0 && !new RegExp(selectedRule.pattern).test(digitsOnly)) {
+        phoneHelp.textContent = selectedRule.message;
+        phoneHelp.classList.add("error");
+    } else {
+        updatePhoneRuleHint();
+        phoneHelp.classList.remove("error");
+    }
+});
+
+/*document.getElementById("country_code").addEventListener("change", updatePhoneRuleHint);*/
+document.getElementById("organization_id").addEventListener("change", filterLocationOptions);
+filterLocationOptions();
+updatePhoneRuleHint();
+</script>
+{% endblock %}
