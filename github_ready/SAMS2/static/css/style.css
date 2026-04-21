@@ -1,0 +1,944 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", "Inter", sans-serif;
+    background: radial-gradient(circle at top, rgba(84, 95, 255, 0.25), transparent 50%),
+        linear-gradient(180deg, #020817 0%, #050a15 45%, #03050d 100%);
+    color: rgb(35 200 200);
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.main-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    height: 80px;
+    background-color: rgb(10 10 34 / 0.95);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: goldenrod;
+}
+
+#head1,
+#head2 {
+    text-align: center;
+    background: linear-gradient(red, yellow, blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+}
+
+.page-content {
+    flex: 1;
+    padding-top: 100px;
+    /* space for fixed header */
+    padding-bottom: 40px;
+}
+
+
+nav {
+    padding: 16px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+nav a {
+    display: inline-block;
+    padding: 7px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    background-color: rgb(0, 0, 200);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+nav a:hover {
+    background-color: #2563eb;
+}
+
+button {
+    padding: 10px 14px;
+    margin: 6px;
+    border: none;
+    border-radius: 8px;
+    background: green;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+#footer {
+    background: rgb(10, 10, 50);
+    padding: 20px 40px;
+    margin-top: auto;
+    color: white;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+.footer-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LEFT TEXT */
+
+/* RIGHT ICONS */
+.footer-right a {
+    margin-left: 15px;
+    font-size: 22px;
+    color: #cfd8dc;
+    transition: 0.3s;
+}
+
+.footer-right a:hover {
+    color: #4fc3f7;
+    /* light blue hover */
+}
+
+.form-row {
+    width: 450px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.login-form {
+    width: 450px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: rgb(12 50 20 / 0.5);
+    border-radius: 10px;
+}
+
+.form-container.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.register-page {
+    display: flex;
+    justify-content: center;
+    padding: 140px 20px 60px;
+}
+
+.register-wrapper {
+    width: min(420px, 100%);
+    position: relative;
+}
+
+.register-card {
+    background: rgba(2, 10, 25, 0.95);
+    border-radius: 28px;
+    padding: 48px 36px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 20px 70px rgba(2, 10, 25, 0.65), 0 0 60px rgba(59, 130, 246, 0.15);
+}
+
+.card-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    margin: 0 auto 18px;
+    background: linear-gradient(135deg, #14b8a6, #0ea5e9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 30px rgba(14, 165, 233, 0.4);
+}
+
+.card-logo i {
+    color: white;
+    font-size: 24px;
+}
+
+.register-card h1 {
+    margin: 0;
+    text-align: center;
+    font-size: 2rem;
+    color: #f8fafc;
+}
+
+.register-card p.subtitle {
+    text-align: center;
+    color: rgba(248, 250, 252, 0.7);
+    margin: 8px 0 24px;
+    font-size: 1rem;
+}
+
+.register-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.register-card label {
+    font-size: 0.9rem;
+    color: rgba(248, 250, 252, 0.75);
+    margin-bottom: 6px;
+}
+
+.form-field {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(248, 250, 252, 0.1);
+    background: rgba(15, 23, 42, 0.6);
+    color: #f8fafc;
+    font-size: 1rem;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-field:focus {
+    outline: none;
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.25);
+    background: rgba(15, 23, 42, 0.9);
+}
+
+.form-field option {
+    color: #0f172a;
+}
+
+.face-panel {
+    padding: 16px;
+    border-radius: 16px;
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.compact-face-panel {
+    margin-bottom: 18px;
+    background: #f8fafc;
+    border-color: #dbeafe;
+}
+
+.face-panel-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.face-panel-header h3 {
+    margin: 0;
+    color: #f8fafc;
+    font-size: 1rem;
+}
+
+.compact-face-panel .face-panel-header h3 {
+    color: #0f172a;
+}
+
+.face-panel-header span {
+    color: rgba(248, 250, 252, 0.72);
+    font-size: 0.88rem;
+}
+
+.compact-face-panel .face-panel-header span {
+    color: #64748b;
+}
+
+.face-video {
+    width: 100%;
+    min-height: 220px;
+    border-radius: 14px;
+    background: #020617;
+    object-fit: cover;
+}
+
+.face-canvas {
+    display: none;
+}
+
+.face-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.secondary-button {
+    background: #0f172a;
+}
+
+.secondary-button:hover {
+    background: #1e293b;
+}
+
+.face-status {
+    margin: 0;
+    font-size: 0.92rem;
+    color: rgba(248, 250, 252, 0.78);
+}
+
+.compact-face-panel .face-status {
+    color: #475569;
+}
+
+.register-card button[type=submit] {
+    border: none;
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #f8fafc;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.register-card button[type=submit]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
+}
+
+.register-card .note {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.85rem;
+    color: rgba(248, 250, 252, 0.65);
+}
+
+.error {
+    color: #b91c1c;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.note {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #374151;
+    text-align: center;
+}
+
+
+.overlay {
+    height: 100%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.home-content {
+    width: 80%;
+}
+
+.description {
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+.stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px 0;
+}
+
+.card {
+    background: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+    width: 180px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.card h2 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.btn {
+    padding: 10px 25px;
+    background: blue;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.message-container {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: auto;
+}
+
+.success-message {
+    background-color: #28a745;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.admin-wrap {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.admin-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.table-card {
+    background: #fff;
+    border-radius: 18px;
+   box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+    padding: 20px;
+    margin-bottom: 25px;
+    overflow-x: auto;
+}
+
+.admin-stats {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: white;
+    width: 280px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+}
+
+@media (max-width: 768px) {
+    .admin-wrap {
+        padding: 14px;
+    }
+
+    .admin-stats {
+        flex-direction: column;
+    }
+
+    .stat-card {
+        width: auto;
+        padding: 20px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 640px;
+}
+
+th,
+td {
+    padding: 14px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background: #f8fafc;
+}
+
+tr:hover {
+    background: #f1f5f9;
+}
+
+.btn {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #1d4ed8;
+}
+
+.role-select {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.empty {
+    text-align: center;
+    color: #666;
+}
+.hero {
+    padding: 60px 20px;
+
+}
+
+.dashboard-shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+}
+
+.dashboard-hero-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(300px, 0.9fr);
+    gap: 24px;
+    margin-bottom: 28px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
+}
+
+.eyebrow {
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.78rem;
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.dashboard-hero-card h2 {
+    margin: 0 0 10px;
+    color: #0f172a;
+    font-size: 2rem;
+}
+
+.dashboard-subtitle {
+    margin: 0;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.attendance-cta-card {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    border-radius: 20px;
+    padding: 24px;
+    color: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    justify-content: center;
+}
+
+.attendance-badge {
+    align-self: flex-start;
+    background: rgba(56, 189, 248, 0.18);
+    color: #7dd3fc;
+    border: 1px solid rgba(125, 211, 252, 0.35);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.attendance-button {
+    width: 100%;
+    margin: 0;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.attendance-button:disabled {
+    cursor: not-allowed;
+    background: #64748b;
+}
+
+.attendance-status {
+    margin: 0;
+    color: rgba(248, 250, 252, 0.78);
+    line-height: 1.5;
+}
+
+.leave-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.leave-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.leave-textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.leave-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.leave-admin-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.leave-reject {
+    background: #dc2626;
+}
+
+.leave-reject:hover {
+    background: #b91c1c;
+}
+
+.attendance-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.72);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1200;
+}
+
+.attendance-modal.is-visible {
+    display: flex;
+}
+
+.attendance-modal-card {
+    width: min(560px, 100%);
+    background: rgb(2 10 25 / 0.9);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+}
+
+.attendance-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.attendance-modal-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #0f172a;
+}
+
+.modal-close {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.attendance-modal-copy {
+    margin: 14px 0 20px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.verification-list {
+    display: grid;
+    gap: 14px;
+}
+
+.verification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.verification-item strong {
+    color: #0f172a;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.verification-item p {
+    margin: 0;
+    color: #475569;
+}
+
+.step-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: 6px;
+    background: #cbd5e1;
+    flex-shrink: 0;
+}
+
+.verification-item.is-active {
+    border-color: #38bdf8;
+    background: #eff6ff;
+}
+
+.verification-item.is-active .step-dot {
+    background: #0ea5e9;
+}
+
+.verification-item.is-success {
+    border-color: #22c55e;
+    background: #f0fdf4;
+}
+
+.verification-item.is-success .step-dot {
+    background: #16a34a;
+}
+
+.verification-item.is-error {
+    border-color: #ef4444;
+    background: #fef2f2;
+}
+
+.verification-item.is-error .step-dot {
+    background: #dc2626;
+}
+
+.attendance-result {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: #0f172a;
+    color: #f8fafc;
+    min-height: 24px;
+}
+
+@media (max-width: 900px) {
+    .dashboard-hero-card {
+        grid-template-columns: 1fr;
+    }
+
+    .leave-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-header {
+        height: auto;
+        padding: 14px 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .logo {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    nav {
+        padding: 0;
+        justify-content: center;
+    }
+
+    nav a {
+        flex: 1 1 120px;
+        text-align: center;
+        padding: 10px 14px;
+        margin: 0;
+    }
+
+    .page-content {
+        padding-top: 170px;
+        padding-bottom: 24px;
+    }
+
+    #footer {
+        padding: 20px 16px;
+    }
+
+    .footer-bar {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .register-page {
+        padding: 120px 14px 30px;
+    }
+
+    .register-card {
+        padding: 28px 18px;
+        border-radius: 20px;
+    }
+
+    .register-card h1 {
+        font-size: 1.55rem;
+    }
+
+    .form-field {
+        box-sizing: border-box;
+    }
+
+    .face-video {
+        min-height: 170px;
+    }
+
+    .home-content {
+        width: min(92%, 100%);
+    }
+
+    .home-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .description {
+        font-size: 1rem;
+    }
+
+    .stats-container {
+        gap: 16px;
+    }
+
+    .card {
+        width: min(100%, 260px);
+    }
+
+    .buttons,
+    .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        margin: 0;
+    }
+
+    .admin-wrap,
+    .dashboard-shell {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .admin-title {
+        font-size: 1.7rem;
+    }
+
+    .table-card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    table {
+        min-width: 560px;
+    }
+
+    .dashboard-hero-card {
+        padding: 20px;
+        border-radius: 18px;
+    }
+
+    .dashboard-hero-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .attendance-cta-card {
+        padding: 18px;
+    }
+
+    .attendance-modal {
+        padding: 12px;
+    }
+
+    .attendance-modal-card {
+        padding: 18px;
+        border-radius: 18px;
+    }
+
+    .attendance-modal-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .modal-close,
+    button,
+    .attendance-button,
+    .secondary-button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .leave-admin-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .role-select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .message-container {
+        width: calc(100% - 24px);
+        left: 12px;
+        transform: none;
+    }
+}

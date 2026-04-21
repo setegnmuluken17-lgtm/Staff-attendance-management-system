@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="home-bg">
+    <div class="overlay">
+        <div class="home-content">
+            <h1>Online Staff Attendance System</h1>
+
+            <p class="description">
+                This system helps organizations manage employee attendance,
+                monitor daily check-ins, track lateness, and generate reports efficiently.
+            </p>
+
+            <div class="stats-container">
+                <div class="card">
+                    <h2>{{ total_staff }}</h2>
+                    <p>Total Staff</p>
+                </div>
+                <div class="card">
+                    <h2>{{ today_attendance }}</h2>
+                    <p>Today's Attendance</p>
+                </div>
+                <div class="card">
+                    <h2>{{ late_count }}</h2>
+                    <p>Late Today</p>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a href="{% url 'login' %}" class="btn">Login</a>
+                <a href="{% url 'register' %}" class="btn">Register</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

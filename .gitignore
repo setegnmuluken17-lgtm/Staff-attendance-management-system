@@ -1,0 +1,10 @@
+.venv/
+.idea/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+staff_face_encodings.json
+db.sqlite3
+*.sqlite3
